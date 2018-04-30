@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    tools:context=".MainActivity"
+    android:background="#ffffff">
+
+    <SurfaceView
+        android:id="@+id/surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/iv"
+        android:layout_toRightOf="@+id/btnUp"
+        android:background="@color/WHITE"
+        android:layout_toEndOf="@+id/btnUp" />
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/btnUp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/WHITE"
+        android:layout_marginBottom="10dp"
+
+        android:text="Up" />
+
+    <Button
+        android:id="@+id/btnDown"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/btnUp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/WHITE"
+        android:layout_marginBottom="10dp"
+
+
+        android:text="Down" />
+
+    <Button
+        android:id="@+id/btnLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/btnDown"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/WHITE"
+        android:layout_marginBottom="10dp"
+
+
+        android:text="Left" />
+
+    <Button
+        android:id="@+id/btnRight"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/btnLeft"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/WHITE"
+        android:layout_marginBottom="10dp"
+
+        android:text="Right" />
+
+    <Button
+        android:id="@+id/btnAttack"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/btnRight"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/WHITE"
+        android:layout_marginBottom="10dp"
+
+        android:text="Attack" />
+
+    <Button
+        android:id="@+id/btnHeal"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/btnAttack"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/WHITE"
+        android:layout_marginBottom="10dp"
+
+        android:text="Heal" />
+
+    <Button
+        android:id="@+id/btnWait"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/btnHeal"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/WHITE"
+        android:layout_marginBottom="10dp"
+
+        android:text="Wait" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/btnWait"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/WHITE"
+        android:layout_marginBottom="10dp"
+
+        android:text="Save" />
+
+</RelativeLayout>
