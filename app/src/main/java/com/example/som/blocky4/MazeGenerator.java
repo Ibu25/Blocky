@@ -34,7 +34,7 @@ public class MazeGenerator {
 
     }//End of Constructor
 
-    public static void createPath() {
+    public void createPath() {
         Random rand = new Random();//Creates instance of Random
         while (Maze[Rows][Columns] != 1) {
             value=rand.nextInt(4);//Give value a random value (0||1||2||3)
