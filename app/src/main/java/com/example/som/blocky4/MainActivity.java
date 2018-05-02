@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     Button LoadGame;
     Button Tutorial;
     Boolean checkSave;
-    //public static ArrayList<Coordinates> Cords = new ArrayList<Coordinates>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

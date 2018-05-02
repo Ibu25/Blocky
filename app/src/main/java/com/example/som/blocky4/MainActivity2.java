@@ -46,7 +46,7 @@ public class MainActivity2 extends Activity implements OnClickListener {
             findViewById(R.id.btnHeal).setOnClickListener(this);
             findViewById(R.id.btnWait).setOnClickListener(this);
             findViewById(R.id.btnSave).setOnClickListener(this);
-            findViewById(R.id.btnStart).setOnClickListener(this);
+            //findViewById(R.id.btnStart).setOnClickListener(this);
             //Done Initializing all the Buttons
 
             mySurfaceView = (MySurfaceView) (findViewById(R.id.surface));
@@ -59,16 +59,6 @@ public class MainActivity2 extends Activity implements OnClickListener {
     @Override
     public void onClick (View v){
         switch (v.getId()) {
-            case R.id.btnStart:
-                try {
-                    mySurfaceView.startThread();
-                    v.setVisibility(View.GONE);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
             case R.id.btnUp:
                 try {
                     mySurfaceView.Up();

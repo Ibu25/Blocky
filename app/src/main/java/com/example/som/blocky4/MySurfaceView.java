@@ -1,5 +1,6 @@
 package com.example.som.blocky4;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.graphics.Paint.Cap;
 import android.graphics.Paint.Style;
 import android.graphics.PorterDuff;
 import android.hardware.camera2.params.BlackLevelPattern;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Surface;
@@ -17,6 +19,8 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import static com.example.som.blocky4.R.color.colorPrimaryDark;
 
 /**
  * Created by S.o.M on 4/30/18.
@@ -38,10 +42,13 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
     MazeGenerator maze;
     int[][] Maze;
     ArrayList<All> all;
+    ArrayList<ArrayList<All>> a;
     ArrayList<Integer> dimension;
     boolean[][] Enemies;
     int xBlocky;
     int yBlocky;
+    int oldxBlocky;
+    int oldyBlocky;
 
     //Start of 3 Constructors
     public MySurfaceView(Context context) {
@@ -79,7 +86,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         paintBlocked.setStyle(Style.FILL);
         paintBlocked.setAntiAlias(true);
 
-        paintBlocky.setColor(Color.BLUE);
+        paintBlocky.setColor(Color.rgb(48, 63, 159));
         paintBlocky.setStyle(Style.FILL);
         paintBlocky.setAntiAlias(true);
 
@@ -94,6 +101,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         xBlocky = 1;
         yBlocky = 1;
         all = new ArrayList<All>();
+        a= new ArrayList<ArrayList<All>>();
 
         for (int i = 0; i < 40 + 2; i++) {
             Maze[i][0] = 0;
@@ -109,8 +117,8 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         }
 
         for (int row = 0; row < 40; row++) {
+            ArrayList<All> b=new ArrayList<All>();
             for (int col = 0; col < 60; col++) {
-
                 All butt = new All();
                 butt.setxCoordinate(row);
                 butt.setyCoordinate(col);
@@ -121,38 +129,32 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     butt.setBlocky(true);
                     butt.setVisited(true);
                 } else butt.setBlocky(false);
-                all.add(butt);
+                b.add(butt);
             }
+            a.add(b);
         }
 
         location = new Point(0, 200);
     }//End of initialize method
 
     public void updateAll() {
-        ArrayList<All> hold = new ArrayList<All>();
-        for (int row = 0; row < 40; row++) {
-            for (int col = 0; col < 60; col++) {
-                All butt = new All();
-                butt.setxCoordinate(row);
-                butt.setyCoordinate(col);
-                if ((Maze[row][col] == 0)) {
-                    butt.setBlocked(true);
-                } else butt.setBlocked(false);
-                if ((row == xBlocky) && (col == yBlocky)) {
-                    butt.setBlocky(true);
-                    butt.setVisited(true);
-                } else butt.setBlocky(false);
-                hold.add(butt);
-            }
+        if (!((a.get(xBlocky).get(yBlocky)).getBlocked())) {
+            ((a.get(oldxBlocky)).get(oldyBlocky)).setBlocky(false);
+            ((a.get(xBlocky)).get(yBlocky)).setBlocky(true);
+            ((a.get(xBlocky)).get(yBlocky)).setVisited(true);
+            paintBlocky.setColor(Color.rgb(48, 63, 159));
         }
-        for (int i = 0; i < 2400; i++) {
-            (hold.get(i)).setVisited((all.get(i)).getVisited());
+        else {
+            xBlocky=oldxBlocky;
+            yBlocky=oldyBlocky;
+            paintBlocky.setColor(Color.RED);
         }
-        all = hold;
+
     }
 
     public void startThread() {
         drawThread = new DrawThread(getHolder(), this);
+        drawThread.setRunning(true);
         drawThread.start();
     }//End of startThread
 
@@ -163,7 +165,8 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
     public void Up() {
         Log.i("WidthTag", "AAAAAAHHHHHHHHHH");
-        if
+        oldxBlocky=xBlocky;
+        oldyBlocky=yBlocky;
         yBlocky -= 1;
 
         updateAll();
@@ -171,18 +174,24 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
     }//End of Up
 
     public void Down() {
+        oldxBlocky=xBlocky;
+        oldyBlocky=yBlocky;
         yBlocky += 1;
         updateAll();
         invalidate();
     }//End of Down
 
     public void Left() {
+        oldxBlocky=xBlocky;
+        oldyBlocky=yBlocky;
         xBlocky -= 1;
         updateAll();
         invalidate();
     }//End of Left
 
     public void Right() {
+        oldxBlocky=xBlocky;
+        oldyBlocky=yBlocky;
         xBlocky += 1;
         updateAll();
         invalidate();
@@ -214,25 +223,33 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
     public void onDraw(Canvas canvas) {
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         canvas.drawColor(Color.BLACK);
-        for (int i = 0; i < all.size(); i++) {
-            all.get(i);
+        int width = canvas.getWidth();
+        int w= width/60;
+        int height=canvas.getHeight();
+        int h=height/40;
+        int u;
+        if (w < h) { u=w; } else u=h;
+        for (int i = 0; i < 40; i++) {
+            for (int z = 0; z < 60; z++) {
 
-            //If blocky is there, draw a square that is blue
-            if (all.get(i).getBlocky()) {
-                canvas.drawRect(all.get(i).getxCoordinate()*25, all.get(i).getyCoordinate()*25, (all.get(i).getxCoordinate()*25) + 25, (all.get(i).getyCoordinate()*25) + 25, paintBlocky);
-            }
+                //If  is there, draw a square that is blue
+                if ((a.get(i)).get(z).getBlocky()) {
+                    canvas.drawRect((a.get(i)).get(z).getxCoordinate() * u, (a.get(i)).get(z).getyCoordinate() * u, ((a.get(i)).get(z).getxCoordinate() * u) + u, ((a.get(i)).get(z).getyCoordinate() * u) + u, paintBlocky);
+                }
 
-            //If blocked or unvisted, draw a square that is black
-            else if (all.get(i).getBlocked() || !(all.get(i).getVisited())) {
-                canvas.drawRect(all.get(i).getxCoordinate()*25, all.get(i).getyCoordinate()*25, (all.get(i).getxCoordinate()*25) + 25, (all.get(i).getyCoordinate()*25) + 25, paintBlocked);
-            }
+                //If blocked or unvisted, draw a square that is black
+                else if ((a.get(i)).get(z).getBlocked() || !(a.get(i)).get(z).getVisited()) {
+                    canvas.drawRect((a.get(i)).get(z).getxCoordinate() * u, (a.get(i)).get(z).getyCoordinate() * u, ((a.get(i)).get(z).getxCoordinate() * u) + u, ((a.get(i)).get(z).getyCoordinate() * u) + u, paintBlocked);
+                }
 
-            //If enemy is there and visited, draw a red square
-            else if (all.get(i).getVisited() && all.get(i).getEnemy()) {
-                canvas.drawRect(all.get(i).getxCoordinate()*25, all.get(i).getyCoordinate()*25, (all.get(i).getxCoordinate()*25) + 25, (all.get(i).getyCoordinate()*25) + 25, paintEnemies);
-            }
-            else canvas.drawRect(all.get(i).getxCoordinate()*25, all.get(i).getyCoordinate()*25, (all.get(i).getxCoordinate()*25) + 25, (all.get(i).getyCoordinate()*25) + 25, paintOpen);
-        }//End of for loop
+                //If enemy is there and visited, draw a red square
+                else if ((a.get(i)).get(z).getVisited() && (a.get(i)).get(z).getEnemy()) {
+                    canvas.drawRect((a.get(i)).get(z).getxCoordinate() * u, (a.get(i)).get(z).getyCoordinate() * u, ((a.get(i)).get(z).getxCoordinate() * u) + u, ((a.get(i)).get(z).getyCoordinate() * u) + u, paintEnemies);
+                } else
+                    canvas.drawRect((a.get(i)).get(z).getxCoordinate() * u, (a.get(i)).get(z).getyCoordinate() * u, ((a.get(i)).get(z).getxCoordinate() * u) + u, ((a.get(i)).get(z).getyCoordinate() * u) + u, paintOpen);
+
+            }//End of for loop
+        }
     }//End of onDraw
 
     class DrawThread extends Thread {
@@ -251,14 +268,15 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
             this.run = run;
         }
 
+        @SuppressLint("WrongCall")
         public void run() {
             Canvas canvas = null;
-            if (run) {
+            while (run) {
                 try {
                     canvas = surfaceHolder.lockCanvas(null);
                     synchronized (surfaceHolder) {
                         mySurfaceView.onDraw(canvas);
-                        //mySurfaceView.update();
+                        mySurfaceView.updateAll();
                     }
                 } finally {
                     if (canvas != null) {

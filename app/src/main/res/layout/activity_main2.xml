@@ -103,14 +103,5 @@
         android:textColor="@color/WHITE"
         android:text="@string/save" />
 
-    <Button
-        android:id="@+id/btnStart"
-        android:layout_width="75dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/WHITE"
-        android:layout_marginTop="10dp"
-        android:text="@string/start" />
     ></LinearLayout>
 </RelativeLayout>
