@@ -116,16 +116,16 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
             Maze[40 + 1][i] = 0;
         }
 
-        for (int row = 0; row < 40; row++) {
+        for (int row = 0; row < 42; row++) {
             ArrayList<All> b=new ArrayList<All>();
-            for (int col = 0; col < 60; col++) {
+            for (int col = 0; col < 62; col++) {
                 All butt = new All();
-                butt.setxCoordinate(row);
-                butt.setyCoordinate(col);
+                butt.setxCoordinate(col);
+                butt.setyCoordinate(row);
                 if ((Maze[row][col] == 0)) {
                     butt.setBlocked(true);
                 } else butt.setBlocked(false);
-                if ((row == xBlocky) && (col == yBlocky)) {
+                if ((col == xBlocky) && (row == yBlocky)) {
                     butt.setBlocky(true);
                     butt.setVisited(true);
                 } else butt.setBlocky(false);
@@ -167,7 +167,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         Log.i("WidthTag", "AAAAAAHHHHHHHHHH");
         oldxBlocky=xBlocky;
         oldyBlocky=yBlocky;
-        yBlocky -= 1;
+        xBlocky -= 1;
 
         updateAll();
         invalidate();
@@ -176,7 +176,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
     public void Down() {
         oldxBlocky=xBlocky;
         oldyBlocky=yBlocky;
-        yBlocky += 1;
+        xBlocky += 1;
         updateAll();
         invalidate();
     }//End of Down
@@ -184,7 +184,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
     public void Left() {
         oldxBlocky=xBlocky;
         oldyBlocky=yBlocky;
-        xBlocky -= 1;
+        yBlocky -= 1;
         updateAll();
         invalidate();
     }//End of Left
@@ -192,7 +192,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
     public void Right() {
         oldxBlocky=xBlocky;
         oldyBlocky=yBlocky;
-        xBlocky += 1;
+        yBlocky += 1;
         updateAll();
         invalidate();
     }//End of Right
@@ -222,15 +222,17 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
     public void onDraw(Canvas canvas) {
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        canvas.drawColor(Color.BLACK);
+        canvas.drawColor(Color.WHITE);
         int width = canvas.getWidth();
-        int w= width/60;
+        int w= width/62;
         int height=canvas.getHeight();
-        int h=height/40;
+        int h=height/42;
+        System.out.println(width);
+        System.out.println(height);
         int u;
         if (w < h) { u=w; } else u=h;
-        for (int i = 0; i < 40; i++) {
-            for (int z = 0; z < 60; z++) {
+        for (int i = 0; i < 42; i++) {
+            for (int z = 0; z < 62; z++) {
 
                 //If  is there, draw a square that is blue
                 if ((a.get(i)).get(z).getBlocky()) {
