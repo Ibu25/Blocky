@@ -9,3 +9,6 @@ through.
 The original plan was to add enemies and other functionality, but I never got around to it. My current plan is to recreate this using C# and the .NET Framework and flesh
 it out.
 </p>
+<p>
+Note: The files in this repo are not actually the final version of the game. I didn't understand how to use Git back then so I need to search my drives to see if I can find the complete files.
+</p>
